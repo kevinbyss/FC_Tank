@@ -4,8 +4,11 @@
 #define COMMON_INCLUDE
 #include <graphics.h>
 #include <conio.h>
+#include <time.h>
+#include <string>
 #include <Windows.h>
 
+using std::string;
 #endif // !COMMON_INCLUDE
 
 #ifndef GLOBAL_VARIABLE
