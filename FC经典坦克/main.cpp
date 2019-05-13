@@ -15,7 +15,7 @@ int main(void) {
 
 	//初始化游戏阶段管理类
 	Game game;
-	game.SetStage(GameStageMenu);
+	game.SetStage(GameStageMenu);			//修改此参数可以设定程序开始阶段
 
 	do {
 		clock_t now = clock();

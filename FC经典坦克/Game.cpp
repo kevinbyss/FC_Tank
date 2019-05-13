@@ -2,10 +2,7 @@
 
 
 Game::Game() {
-	m_fps = 0;
-	m_showFPS = 0;
-	m_lastClock = clock();
-	m_stage = GameStage::GameStageMenu;
+	InitGame();
 }
 
 
@@ -13,6 +10,11 @@ Game::~Game() {
 }
 
 int Game::InitGame() {				//游戏初始化
+	m_fps = 0;
+	m_showFPS = 0;
+	m_lastClock = clock();
+	m_stage = GameStage::GameStageMenu;
+	m_battlefield.setField(100, 40, BATTLE_FIELD_WIDTH, BATTLE_FIELD_HEIGHT);
 	return 0;
 }
 
@@ -30,8 +32,10 @@ void Game::GameDraw() {
 		GameStageMenu();
 		break;
 	case GameStage::GameStageLevel:
+		GameStageLevel();
 		break;
 	case GameStage::GameStageBattle:
+		GameStageBattle();
 		break;
 	case GameStage::GameStageResult:
 		break;
@@ -46,15 +50,44 @@ void Game::GameDraw() {
 
 void Game::GameStageMenu() {		//菜单阶段
 	m_item.SetGameStage(m_stage);
+	GameStage changeStage;
 
 	int key;
 
 	if (_kbhit()) {
 		key = _getch();
-		m_item.KeyDown(key);
+		changeStage = m_item.KeyDown(key);
+		if (changeStage != GameStageCount) {
+			m_stage = changeStage;
+		}
 	}
 
 	m_item.Draw();
+}
+
+void Game::GameStageLevel() {		//关卡显示阶段（第一次进入可选择关卡）
+	m_item.SetGameStage(m_stage);
+	GameStage changeStage;
+
+	int key;
+
+	if (_kbhit()) {
+		key = _getch();
+		changeStage = m_item.KeyDown(key);
+		if (changeStage != GameStageCount) {
+			m_stage = changeStage;
+		}
+	}
+
+	m_item.Draw();
+}
+
+void Game::GameStageBattle() {		//游戏阶段
+	m_item.SetGameStage(m_stage);
+	m_battlefield.setMapNum(m_item.GetGameNum() - 1);
+
+	m_item.Draw();
+	m_battlefield.Draw();
 }
 
 bool Game::GameStageOver() {

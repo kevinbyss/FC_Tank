@@ -23,8 +23,24 @@ enum GameStage {
 	GameStageCount			//游戏阶段数量
 };
 
-#define WINDOW_WIDTH (800)		//窗口宽度
-#define WINDOW_HEIGTH (600)		//窗口高度
+enum map_type {
+	mapWall = 1,
+	mapStone = 2,
+	mapForest = 3,
+	mapIce = 4,
+	mapRiver_0 = 5,
+	mapRiver_1 = 6,
+	mapCamp_0 = 7,
+	mapCamp_1 = 8,
+	bullet = 15,
+	playerTank = 25,
+	enemyTank = 35
+};
+
+#define WINDOW_WIDTH (800)			//窗口宽度
+#define WINDOW_HEIGTH (600)			//窗口高度
+#define BATTLE_FIELD_WIDTH (520)	//战场宽度
+#define BATTLE_FIELD_HEIGHT (520)	//战场高度
 
 #endif // !GLOBAL_VARIABLE
 

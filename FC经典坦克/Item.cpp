@@ -18,6 +18,19 @@ Item::Item() {
 	menu_img_site = 1;
 	menu_step = 0;
 	lastClock = clock();
+	first_in = true;
+	level_font.style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, "STAGE   1");
+	game_num = 1;
+	char temp[3];
+	sprintf_s(temp, sizeof(temp) / sizeof(char), "%d", game_num);
+	battle_font[0].style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, temp);
+	battle_font[1].style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, "I  P");
+	battle_font[2].style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, " 2");
+	battle_font[3].style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, "II P");
+	battle_font[4].style(BLACKF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, " 2");
+	loadimage(&battle_img[0], _T("./resource/flag.gif"), 40, 40);
+	loadimage(&battle_img[1], _T("./resource/playertank-ico.gif"), 20, 20);
+	loadimage(&battle_img[2], _T("./resource/enemytank-ico.gif"), 20, 20);
 }
 
 Item::~Item() {
@@ -27,7 +40,99 @@ void Item::SetGameStage(GameStage stage) {
 	m_stage = stage;
 }
 
+void Item::SetGameNum(int num) {
+	game_num = num;
+}
+
+int Item::GetGameNum() {
+	return game_num;
+}
+
 void Item::Draw() {
+	switch (m_stage) {
+	case GameStageMenu:
+		StageMenu();
+		break;
+	case GameStageLevel:
+		StageLevel();
+		break;
+	case GameStageBattle:
+		StageBattle();
+		break;
+	case GameStageResult:
+		break;
+	case GameStageOver:
+		break;
+	case GameStageCount:
+		break;
+	default:
+		break;
+	}
+}
+
+GameStage Item::KeyDown(int key) {
+	if (m_stage == GameStage::GameStageMenu) {
+		switch (key) {
+		case 'w':
+		case 'W':
+			if (menu_img_site == 1) {
+				menu_img_site = 3;
+			} else {
+				menu_img_site--;
+			}
+			return GameStageCount;
+			break;
+		case 's':
+		case 'S':
+			if (menu_img_site == 3) {
+				menu_img_site = 1;
+			} else {
+				menu_img_site++;
+			}
+			return GameStageCount;
+			break;
+		case 'j':
+		case 'J':
+			if (menu_step < 110) break;
+			return GameStageLevel;
+			break;
+		default:
+			break;
+		}
+	} else if (m_stage == GameStage::GameStageLevel) {
+		char new_str[11];
+		switch (key) {
+		case 'w':
+		case 'W':
+			if (game_num != 3 && first_in == true) {
+				game_num++;
+				sprintf_s(new_str, sizeof(new_str) / sizeof(char), "STAGE   %d", game_num);
+				level_font.setString(new_str);
+			}
+			break;
+		case 's':
+		case 'S':
+			if (game_num != 1 && first_in == true) {
+				game_num--;
+				sprintf_s(new_str, sizeof(new_str) / sizeof(char), "STAGE   %d", game_num);
+				level_font.setString(new_str);
+			}
+			break;
+		case 'j':
+		case 'J':
+			if (first_in) {
+				first_in = false;
+			}
+			return GameStageBattle;
+			break;
+		default:
+			break;
+		}
+	}
+	return GameStageCount;
+}
+
+void Item::StageMenu() {		//菜单阶段
 	if (menu_step < 110) {
 		menu_font[0].show(100, WINDOW_HEIGTH - (menu_step * 5));
 		for (int i = 1; i < 8; i++) {
@@ -72,33 +177,18 @@ void Item::Draw() {
 	}
 }
 
-void Item::KeyDown(int key) {
-	switch (key) {
-	case 'w':
-	case 'W':
-		if (menu_img_site == 1) {
-			menu_img_site = 3;
-		} else {
-			menu_img_site--;
-		}
-		return;
-		break;
-	case 's':
-	case 'S':
-		if (menu_img_site == 3) {
-			menu_img_site = 1;
-		} else {
-			menu_img_site++;
-		}
-		return;
-		break;
-	case 'j':
-	case 'J':
-		return;
-		break;
-	default:
-		break;
-	}
+void Item::StageLevel() {		//关卡显示阶段（第一次进入可选择关卡）
+	setbkcolor(RGB(127, 127, 127));
+	level_font.show((WINDOW_WIDTH - level_font.getWidth()) / 2, (WINDOW_HEIGTH / 2));
+}
 
-	return;
+void Item::StageBattle() {		//游戏阶段
+	setbkcolor(RGB(127, 127, 127));
+}
+
+void Item::StageResult() {		//结算阶段
+
+}
+void Item::StageOver() {		//结束阶段（分通关和失败）
+
 }

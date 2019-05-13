@@ -2,6 +2,7 @@
 #include "commonInclude.h"
 
 #include "Item.h"
+#include "BattleField.h"
 
 #ifndef _CLASS_GAME_H
 #define _CLASS_GAME_H
@@ -27,6 +28,7 @@ private:
 	GameStage m_stage;			//记录当前游戏阶段
 
 	Item m_item;
+	BattleField m_battlefield;
 
 	int m_fps;					//记录每秒多少帧
 	int m_showFPS;				//记录每帧在屏幕上的显示
