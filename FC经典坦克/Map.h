@@ -9,6 +9,7 @@ public:
 
 public:
 	void Init_Map(int num);
+	int * getMapData();
 	void Draw(int x, int y);
 
 private:

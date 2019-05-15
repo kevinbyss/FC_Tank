@@ -98,7 +98,8 @@ void Font::show(int x, int y, int interval) {
 		//EasyXÑùÊ½ÉèÖÃ
 		settextcolor(color);
 		settextstyle(&f);
-		outtextxy((int)x, (int)y, s);
+
+		outtextxy(x, y, s);
 	}
 }
 

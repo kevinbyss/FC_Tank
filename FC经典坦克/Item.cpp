@@ -12,8 +12,8 @@ Item::Item() {
 	menu_font[5].style(WHITEF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, "CONSTRUCTION");
 	menu_font[6].style(ORANGEF, 25, 25, "BYSS");
 	menu_font[7].style(WHITEF, NORMAL_FONT_SIZE, NORMAL_FONT_SIZE, "Game by Kevin_byss");
-	loadimage(&menu_img[0], _T("./resource/0Player/m0-2-1.gif"), 40, 40);
-	loadimage(&menu_img[1], _T("./resource/0Player/m0-2-2.gif"), 40, 40);
+	loadimage(&menu_img[0], _T("./resource/tank_img/P-1-4-1-0.gif"), 40, 40);
+	loadimage(&menu_img[1], _T("./resource/tank_img/P-1-4-1-1.gif"), 40, 40);
 	menu_img_status = 0;
 	menu_img_site = 1;
 	menu_step = 0;

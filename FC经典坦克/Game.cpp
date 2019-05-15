@@ -85,6 +85,20 @@ void Game::GameStageLevel() {		//关卡显示阶段（第一次进入可选择关卡）
 void Game::GameStageBattle() {		//游戏阶段
 	m_item.SetGameStage(m_stage);
 	m_battlefield.setMapNum(m_item.GetGameNum() - 1);
+	if (!m_battlefield.initSuccessful()) {
+		m_battlefield.InitBattle();
+	}
+
+	GameStage changeStage;
+	int key;
+
+	if (_kbhit()) {
+		key = _getch();
+		changeStage = m_battlefield.keyDown(key);
+		if (changeStage != GameStageCount) {
+			m_stage = changeStage;
+		}
+	}
 
 	m_item.Draw();
 	m_battlefield.Draw();
